@@ -185,5 +185,18 @@ services:
       - -c
       - airflow
 
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD:-airflow}
+    ports:
+      - ${MYSQL_PORT:-3306}:3306
+    command: --init-file /data/application/init.sql
+    volumes:
+      - ./init.sql:/data/application/init.sql
+      - mysql-db-volume:/var/lib/mysql
+    restart: always
+
 volumes:
   postgres-db-volume:
+  mysql-db-volume:
